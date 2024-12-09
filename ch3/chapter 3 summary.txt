@@ -1,0 +1,9 @@
+CHAPTER 3. 
+
+I learned a basic dart code tutorial by watching YouTube 
+Dart is a programming language that Flutter uses to build mobile, web, and server apps. It’s fast, productive, and works really well for creating modern user interfaces. If you’ve used languages like C++, JavaScript, Dart will feel familiar. But even if you’re new, it’s easy to pick up.
+In short, Dart is like the script of a play, and Flutter is the stage that performs it!
+
+Reflection for My Portfolio
+
+Setting up Flutter wasn’t just about installing software. It was about learning to prepare an environment where I could create something amazing. I’m excited to use this for my projects and grow my skills in mobile app development!

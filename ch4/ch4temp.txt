@@ -1,0 +1,416 @@
+import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart'; // Import the table_calendar package
+
+void main() {
+  runApp(EventPlanningApp());
+}
+
+class EventPlanningApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Youth Community Event Planning',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final List<String> events = [
+    'Music Concert',
+    'Sports Tournament',
+    'Community Picnic',
+    'Art Exhibition',
+    'Youth Talent Show',
+  ];
+
+  DateTime _selectedDate = DateTime.now(); // Default selected date
+
+  // Function to add a new event
+  void _addNewEvent(String event) {
+    setState(() {
+      events.add(event);
+    });
+  }
+
+  // Function to delete an event
+  void _deleteEvent(int index) {
+    setState(() {
+      events.removeAt(index);
+    });
+  }
+
+  // Controller for the dialog input
+  final TextEditingController _eventController = TextEditingController();
+
+  // Show dialog to add new event
+  void _showAddEventDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text('Add New Event'),
+          content: TextField(
+            controller: _eventController,
+            decoration: InputDecoration(labelText: 'Event Name'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (_eventController.text.isNotEmpty) {
+                  _addNewEvent(_eventController.text);
+                  _eventController.clear();
+                  Navigator.of(ctx).pop();
+                }
+              },
+              child: Text('Add'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Function to change the selected date
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      _selectedDate = selectedDay;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Youth Event Planning'),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EventPlanningPage(addEvent: _addNewEvent)),
+                    );
+                  },
+                  child: Text(
+                    'Event Planning',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProjectUpdatesPage()),
+                    );
+                  },
+                  child: Text(
+                    'Project Updates',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedbackPage()),
+                    );
+                  },
+                  child: Text(
+                    'Feedback',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Add New Event Button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: _showAddEventDialog,
+              child: Text('Add New Event'),
+            ),
+          ),
+          
+          // Calendar widget
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TableCalendar(
+              firstDay: DateTime.utc(2020, 1, 1),
+              lastDay: DateTime.utc(2025, 12, 31),
+              focusedDay: _selectedDate,
+              selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
+              onDaySelected: _onDaySelected,
+              headerStyle: HeaderStyle(
+                formatButtonVisible: false,
+                titleCentered: true,
+                leftChevronVisible: true,
+                rightChevronVisible: true,
+              ),
+            ),
+          ),
+
+          // Event List
+          Expanded(
+            child: ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(events[index]),
+                  subtitle: Text('Event on: ${_selectedDate.toLocal().toString().split(' ')[0]}'), // Display selected date
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    onPressed: () => _deleteEvent(index),
+                  ),
+                  onTap: () {
+                    // Navigate to the Event Details screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsScreen(eventName: events[index]),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+HeaderStyle({required bool formatButtonVisible, required bool titleCentered, required bool leftChevronVisible, required bool rightChevronVisible}) {
+}
+
+isSameDay(day, DateTime selectedDate) {
+}
+
+TableCalendar({required DateTime firstDay, required DateTime lastDay, required DateTime focusedDay, required Function(dynamic day) selectedDayPredicate, required void Function(DateTime selectedDay, DateTime focusedDay) onDaySelected, required headerStyle}) {
+}
+
+// Event Planning Page
+class EventPlanningPage extends StatefulWidget {
+  final Function(String) addEvent;
+
+  EventPlanningPage({required this.addEvent});
+
+  @override
+  _EventPlanningPageState createState() => _EventPlanningPageState();
+}
+
+class _EventPlanningPageState extends State<EventPlanningPage> {
+  final TextEditingController _eventNameController = TextEditingController();
+  final TextEditingController _eventDateController = TextEditingController();
+  final TextEditingController _eventLocationController = TextEditingController();
+
+  // Function to handle event creation
+  void _planEvent() {
+    if (_eventNameController.text.isNotEmpty &&
+        _eventDateController.text.isNotEmpty &&
+        _eventLocationController.text.isNotEmpty) {
+      widget.addEvent(_eventNameController.text);  // Add event to the list
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Event planned successfully!')),
+      );
+      _eventNameController.clear();
+      _eventDateController.clear();
+      _eventLocationController.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all fields')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Plan New Event'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _eventNameController,
+              decoration: InputDecoration(labelText: 'Event Name'),
+            ),
+            TextField(
+              controller: _eventDateController,
+              decoration: InputDecoration(labelText: 'Event Date'),
+            ),
+            TextField(
+              controller: _eventLocationController,
+              decoration: InputDecoration(labelText: 'Event Location'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _planEvent,
+              child: Text('Plan Event'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Project Updates Page
+class ProjectUpdatesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Project Updates'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Text('Latest updates on planned events!',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}
+
+// Feedback Page
+class FeedbackPage extends StatefulWidget {
+  @override
+  _FeedbackPageState createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
+  final TextEditingController _feedbackController = TextEditingController();
+
+  // Function to submit feedback
+  void _submitFeedback() {
+    if (_feedbackController.text.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Feedback submitted successfully!')),
+      );
+      _feedbackController.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please provide feedback')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Submit Feedback'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _feedbackController,
+              decoration: InputDecoration(labelText: 'Enter Feedback'),
+              maxLines: 5,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitFeedback,
+              child: Text('Submit Feedback'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Event Details Screen
+class EventDetailsScreen extends StatelessWidget {
+  final String eventName;
+
+  EventDetailsScreen({required this.eventName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(eventName),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Text('Details for the event: $eventName',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}

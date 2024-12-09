@@ -1,0 +1,19 @@
+CHAPTER 1. 
+
+Flutter Setup Summary
+
+I successfully set up Flutter for my mobile app development portfolio. The process involved:
+
+1.	Downloading and Extracting Flutter SDK – Set up the tools to start coding.
+
+2.	Installing Android Studio – Installed essential tools like Android SDK and Emulator.
+
+3.	Configuring Environment Variables – Enabled system-wide access to Flutter commands.
+
+4.	Running flutter doctor – Verified the installation and fixed any missing dependencies.
+
+
+5.	Testing Setup – Confirmed Flutter was working by creating and running a sample app.
+
+
+This setup prepared me to build cross-platform apps efficiently, showcasing my ability to adapt to new technologies.

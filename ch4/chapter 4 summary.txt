@@ -1,0 +1,3 @@
+CHAPTER 4.  
+
+Building a starter project template in Flutter was a great way to streamline app development. It taught me how to set up reusable components, organize folder structures, and implement consistent styles. This process helped me understand the importance of scalability and maintainability in app design.

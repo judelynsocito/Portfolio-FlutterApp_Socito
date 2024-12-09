@@ -1,0 +1,62 @@
+ Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Plan New Event'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _eventNameController,
+              decoration: InputDecoration(labelText: 'Event Name'),
+            ),
+            TextField(
+              controller: _eventDateController,
+              decoration: InputDecoration(labelText: 'Event Date'),
+            ),
+            TextField(
+              controller: _eventLocationController,
+              decoration: InputDecoration(labelText: 'Event Location'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _planEvent,
+              child: Text('Plan Event'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Project Updates Page
+class ProjectUpdatesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Project Updates'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Text('Latest updates on planned events!',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),

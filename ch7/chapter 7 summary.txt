@@ -1,0 +1,3 @@
+CHAPTER 7. 
+
+By using Flutter’s built-in animation tools, I created smooth transitions and interactive elements to my youthBridge apps. This process improved my understanding of timing, motion, and how animations can convey app functionality. Adding these details elevated the app’s quality and showcased my ability to create polished, user-friendly applications.

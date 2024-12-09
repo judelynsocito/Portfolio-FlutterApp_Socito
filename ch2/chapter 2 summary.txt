@@ -1,0 +1,5 @@
+CHAPTER 2.
+
+Reflection on Creating a “Hello, World!” in Flutter Using Dart
+
+Creating a “Hello, World!” app in Flutter taught me the basics of mobile development. It helped me understand how Dart works and how Flutter builds user interfaces. I learned how widgets are the building blocks of Flutter apps, and how to structure code for a simple UI.

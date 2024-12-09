@@ -1,0 +1,3 @@
+CHAPTER 8: 
+
+Developing navigation for the YouthBridge app taught me how to structure user flows effectively. I implemented navigation strategies like routes and the Navigator widget to connect different screens seamlessly.

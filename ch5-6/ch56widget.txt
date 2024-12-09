@@ -1,0 +1,17 @@
+Expanded(
+            child: ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(events[index]),
+                  subtitle: Text('Event on: ${_selectedDate.toLocal().toString().split(' ')[0]}'), // Display selected date
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    onPressed: () => _deleteEvent(index),
+                  ),
+                  onTap: () {
+                    // Navigate to the Event Details screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsScreen(eventName: events[index]),
